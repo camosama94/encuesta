@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de encuestas</title>
+</head>
+<body>
+<form action="/encuesta/list" method="post">
+    <label class="form-label"><h4>Filtro</h4></label>
+    <select class="form-control" name="motivo" id="motivo">
+        <option value="" selected>Elige una opcion</option>
+        <option value="Trabajo">Trabajo</option>
+        <option value="Estudio">Estudio</option>
+        <option value="Turismo">Turismo</option>
+        <option value="Otros">Otros</option>
+    </select>
+    <input class="btn btn-primary col-md-12" type="submit" name="enviar" id="enviar" value="Enviar" >
+</form>
+
+
+
+    <h2>Lista de encuestas</h2>
+  <div id="encuestas">
+      <table class="table">
+          <thead>
+          <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Fecha de Entrada</th>
+              <th scope="col">Valoracion</th>
+              <th scope="col">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="encuesta: ${encuestas}">
+              <td th:text="${encuesta.nombre}" ></td>
+              <td th:text="${encuesta.fechaEnt}"></td>
+              <td th:text="${encuesta.satisfaccion}"></td>
+              <td>
+                  <a th:href="@{/encuesta/view/{id}(id=${encuesta.id})}"><i class="bi bi-eye"></i></a>
+                  <a th:href="@{/encuesta/edit/{id}(id=${encuesta.id})}"><i class="bi bi-pencil-square"></i></a>
+                  <a th:href="@{/encuesta/del/{id}(id=${encuesta.id})}"><i class="bi bi-trash"></i></a>
+              </td>
+          </tr>
+          </tbody>
+      </table>
+      <div class="mt-4">
+          <h5>Estadísticas</h5>
+          <p><strong>Total de encuestas:</strong> <span th:text="${totalEncuestas}"></span></p>
+          <p><strong>Media de edad:</strong> <span th:text="${mediaEdad}"></span></p>
+          <p><strong>Total de encuestas por valoración:</strong></p>
+          <ul>
+              <li><strong>Muy Satisfecho:</strong> <span th:text="${totalPorValoracion['Muy Satisfecho'] ?: 0}"></span></li>
+              <li><strong>Satisfecho:</strong> <span th:text="${totalPorValoracion['Satisfecho'] ?: 0}"></span></li>
+              <li><strong>Neutral:</strong> <span th:text="${totalPorValoracion['Neutral'] ?: 0}"></span></li>
+              <li><strong>Insatisfecho:</strong> <span th:text="${totalPorValoracion['Insatisfecho'] ?: 0}"></span></li>
+          </ul>
+      </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta de satisfacción</title>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card p-4">
+        <form th:action="@{/encuesta/success}" th:object="${encuesta}" method="post">
+          <label><h3>Encuesta de satisfacción del cliente</h3></label>
+          <div class="mb-3">
+            <input type="hidden" th:field="*{id}">
+            <label class="form-label">Nombre</label><br>
+            <input class="form-control" type="text" th:field="*{nombre}" name="nombre" id="nombre" placeholder="Nombre..." th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}"><br>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+
+            <label class="form-label">Apellidos</label><br>
+            <input class="form-control" type="text" th:field="*{apellidos}" name="apellidos" id="apellidos" placeholder="apellidos..." th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}"><br>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
+
+            <label class="form-label">Correo electrónico</label><br>
+            <input class="form-control" type="text" th:field="*{mail}" name="mail" id="mail" placeholder="Correo electrónico..." th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}"><br>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+
+            <label class="form-label">Edad</label><br>
+            <input class="form-control" type="number" th:field="*{edad}" name="edad" id="edad" placeholder="Edad..." th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}"><br>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
+
+            <label class="form-label">Telefono</label><br>
+            <input class="form-control" type="text" th:field="*{telefono}" name="telefono" id="telefono" placeholder="Telefono..." th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}"><br>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
+
+            <label class="form-label">Fecha de entrada</label><br>
+            <input class="form-control" type="date" th:field="*{fechaEnt}" name="fecha" id="fecha" placeholder="Fecha de entrada..." th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}"><br>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('fechaEnt')}" th:errors="*{fechaEnt}"></div>
+
+          </div>
+          <label class="form-label"><h4>Motivo del viaje</h4></label>
+          <select class="form-control" name="motivo" id="motivo" th:field="*{motivo}" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+            <option value="" selected>Selecciona una opción</option>
+            <option value="Trabajo">Trabajo</option>
+            <option value="Estudio">Estudio</option>
+            <option value="Turismo">Turismo</option>
+            <option value="Otros">Otros</option>
+          </select>
+          <div class="alert alert-danger" th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}"></div>
+
+          <br>
+          <label class="form-label"><h4>Servicios utilizados</h4></label><br>
+          <input class="form-check-input" type="checkbox" th:field="${encuesta.restaurante}" name="restaurante" id="restaurante" value="Restaurante" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-label">Restaurante</label>
+          <br>
+          <input class="form-check-input" type="checkbox" th:field="${encuesta.gym}" name="gimnasio" id="gimnasio" value="Gimnasio" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-label">Gimnasio</label>
+          <br>
+          <input class="form-check-input" type="checkbox" th:field="${encuesta.spa}" name="spa" id="spa" value="Spa" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-label">Spa</label>
+          <br>
+          <input class="form-check-input" type="checkbox" th:field="${encuesta.piscina}" name="piscina" id="piscina" value="Piscina" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-label">Piscina</label>
+          <br>
+          <input class="form-check-input" type="checkbox" th:field="${encuesta.room}" name="roomservice" id="roomservice" value="RoomService" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-label">Servicio de habitaciones</label>
+          <br>
+
+          <label class="form-check-label"><h4>Satisfacción</h4></label><br>
+          <input class="form-check-input" type="radio" th:field="*{satisfaccion}" id="muy" name="satisfaccion" value="Muy Satisfecho" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-check-label" for="muy">Muy Satisfecho</label><br>
+          <input class="form-check-input" type="radio" th:field="*{satisfaccion}" id="satisfecho" name="satisfaccion" value="Satisfecho" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-check-label" for="satisfecho">Satisfecho</label><br>
+          <input class="form-check-input" type="radio" th:field="*{satisfaccion}" id="neutral" name="satisfaccion" value="Neutral" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-check-label" for="neutral">Neutral</label><br>
+          <input class="form-check-input" type="radio" th:field="*{satisfaccion}" id="insatisfecho" name="satisfaccion" value="Insatisfecho" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+          <label class="form-check-label" for="insatisfecho">Insatisfecho</label><br><br>
+          <div class="alert alert-danger" th:if="${#fields.hasErrors('satisfaccion')}" th:errors="*{satisfaccion}"></div><br>
+
+          <label class="form-label"><h4>Comentarios</h4></label><br>
+          <textarea class="form-control" th:field="*{comment}" name="comment" id="comment" placeholder="Escribe tus comentarios aquí..." rows="4" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}"></textarea>
+          <div class="text-danger" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></div>
+          <br>
+
+          <!--hacer varios botones, para enviar, volver a la lista de encuestas y editar -->
+          <input class="btn btn-primary col-md-12" type="submit" name="enviar" id="enviar" value="Enviar" th:disabled="${currentUri == '/encuesta/view/' + encuesta.id}">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
